@@ -1,0 +1,29 @@
+{
+  "sdk_version": "0.135.0",
+  "plugin_version": "1.0.0",
+  "name": "hedis_care_gaps",
+  "description": "Displays HEDIS care gap alerts when a patient chart is opened or a patient checks in. Flags overdue HbA1c, diabetic eye exam, and blood pressure measures for Suvida Healthcare's value-based care population.",
+  "components": {
+    "protocols": [],
+    "handlers": [
+      {
+        "class": "hedis_care_gaps.plugin:HEDISCareGapHandler"
+      }
+    ],
+    "commands": [],
+    "content": [],
+    "effects": [],
+    "views": [],
+    "applications": []
+  },
+  "secrets": [],
+  "tags": {
+    "category": "quality_measures",
+    "population": "elderly_hispanic",
+    "organization": "suvida_healthcare"
+  },
+  "references": [],
+  "license": "MIT",
+  "diagram": false,
+  "readme": "README.md"
+}
