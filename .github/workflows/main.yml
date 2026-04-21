@@ -38,3 +38,6 @@ jobs:
 
       - name: Deploy plugin
         run: canvas install --host xpc-dev plugins/hedis_care_gaps
+
+      - name: Enable plugin
+        run: canvas enable --host xpc-dev hedis_care_gaps
