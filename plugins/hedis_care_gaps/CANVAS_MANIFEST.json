@@ -7,7 +7,8 @@
     "protocols": [],
     "handlers": [
       {
-        "class": "hedis_care_gaps.plugin:HEDISCareGapHandler"
+        "class": "hedis_care_gaps.plugin:HEDISCareGapHandler",
+        "description": "Fires on APPOINTMENT_CHECKED_IN and adds a banner alert listing overdue HEDIS measures (HbA1c, blood pressure, diabetic eye exam) for patients with diabetes or hypertension."
       }
     ],
     "commands": [],
