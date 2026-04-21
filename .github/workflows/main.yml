@@ -1,1 +1,40 @@
-claude/deploy-canvas-sandbox-3hzSl
+name: Deploy to Canvas Sandbox
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - claude/deploy-canvas-sandbox-3hzSl
+    paths:
+      - 'plugins/**'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install Canvas SDK
+        run: pip install canvas==0.135.0
+
+      - name: Write credentials
+        run: |
+          mkdir -p ~/.canvas
+          chmod 700 ~/.canvas
+          cat > ~/.canvas/credentials.ini << EOF
+          [xpc-dev]
+          client_id = ${{ secrets.CANVAS_CLIENT_ID }}
+          client_secret = ${{ secrets.CANVAS_CLIENT_SECRET }}
+          is_default = true
+          EOF
+          chmod 600 ~/.canvas/credentials.ini
+
+      - name: Run tests
+        run: python -m pytest tests/ -q
+
+      - name: Deploy plugin
+        run: canvas install --host xpc-dev plugins/hedis_care_gaps
