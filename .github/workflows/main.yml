@@ -13,6 +13,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: claude/deploy-canvas-sandbox-3hzSl
 
       - uses: actions/setup-python@v5
         with:
