@@ -24,19 +24,18 @@ jobs:
         run: pip install canvas==0.135.0
 
       - name: Write credentials
+        env:
+          CANVAS_CLIENT_ID: ${{ secrets.CANVAS_CLIENT_ID }}
+          CANVAS_CLIENT_SECRET: ${{ secrets.CANVAS_CLIENT_SECRET }}
         run: |
-          mkdir -p ~/.canvas
-          chmod 700 ~/.canvas
-          cat > ~/.canvas/credentials.ini << EOF
-          [xpc-dev]
-          client_id = ${{ secrets.CANVAS_CLIENT_ID }}
-          client_secret = ${{ secrets.CANVAS_CLIENT_SECRET }}
-          is_default = true
-          EOF
+          mkdir -p ~/.canvas && chmod 700 ~/.canvas
+          printf '[xpc-dev]\nclient_id = %s\nclient_secret = %s\nis_default = true\n' \
+            "$CANVAS_CLIENT_ID" "$CANVAS_CLIENT_SECRET" > ~/.canvas/credentials.ini
           chmod 600 ~/.canvas/credentials.ini
+          echo "credentials.ini written, sections: $(python3 -c "import configparser; c=configparser.ConfigParser(); c.read('$HOME/.canvas/credentials.ini'); print(c.sections())")"
 
       - name: Run tests
-        run: python -m pytest tests/ -q
+        run: python -m pytest tests/ -v
 
       - name: Deploy plugin
         run: canvas install --host xpc-dev plugins/hedis_care_gaps
