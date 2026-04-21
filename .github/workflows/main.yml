@@ -20,8 +20,8 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Install Canvas SDK
-        run: pip install canvas==0.135.0
+      - name: Install dependencies
+        run: pip install -r setup/requirements.txt pytest
 
       - name: Write credentials
         env:
@@ -32,7 +32,6 @@ jobs:
           printf '[xpc-dev]\nclient_id = %s\nclient_secret = %s\nis_default = true\n' \
             "$CANVAS_CLIENT_ID" "$CANVAS_CLIENT_SECRET" > ~/.canvas/credentials.ini
           chmod 600 ~/.canvas/credentials.ini
-          echo "credentials.ini written, sections: $(python3 -c "import configparser; c=configparser.ConfigParser(); c.read('$HOME/.canvas/credentials.ini'); print(c.sections())")"
 
       - name: Run tests
         run: python -m pytest tests/ -v
